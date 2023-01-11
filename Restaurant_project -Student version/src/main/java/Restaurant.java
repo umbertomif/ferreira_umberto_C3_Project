@@ -6,8 +6,8 @@ import java.util.List;
 public class Restaurant {
     private String name;
     private String location;
-    public LocalTime openingTime;
-    public LocalTime closingTime;
+    private LocalTime openingTime;
+    private LocalTime closingTime;
     private List<Item> menu = new ArrayList<Item>();
 
     public Restaurant(String name, String location, LocalTime openingTime, LocalTime closingTime) {
@@ -18,20 +18,16 @@ public class Restaurant {
     }
 
     public boolean isRestaurantOpen() {
-        return true;
-        //DELETE ABOVE STATEMENT AND WRITE CODE HERE
+        return !this.openingTime.isAfter(this.getCurrentTime()) && !this.closingTime.isBefore(this.getCurrentTime());
     }
 
-    public LocalTime getCurrentTime(){ return  LocalTime.now(); }
+    public LocalTime getCurrentTime() { return  LocalTime.now(); }
 
-    public List<Item> getMenu() {
-        return null;
-        //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
-    }
+    public List<Item> getMenu() { return menu; }
 
-    private Item findItemByName(String itemName){
-        for(Item item: menu) {
-            if(item.getName().equals(itemName))
+    private Item findItemByName(String itemName) {
+        for (Item item: menu) {
+            if (item.getName().equals(itemName))
                 return item;
         }
         return null;
@@ -43,24 +39,20 @@ public class Restaurant {
     }
     
     public void removeFromMenu(String itemName) throws itemNotFoundException {
-
         Item itemToBeRemoved = findItemByName(itemName);
         if (itemToBeRemoved == null)
             throw new itemNotFoundException(itemName);
-
         menu.remove(itemToBeRemoved);
     }
-    public void displayDetails(){
+    public void displayDetails() {
         System.out.println("Restaurant:"+ name + "\n"
                 +"Location:"+ location + "\n"
                 +"Opening time:"+ openingTime +"\n"
                 +"Closing time:"+ closingTime +"\n"
                 +"Menu:"+"\n"+getMenu());
-
     }
 
     public String getName() {
         return name;
     }
-
 }
